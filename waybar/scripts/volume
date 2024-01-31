@@ -1,0 +1,96 @@
+#!/bin/sh
+
+iDIR="$HOME/.config/waybar/icons"
+
+# Get Volume
+get_volume() {
+	volume=$(pactl list sinks | grep 'Volume:' | head -n 1 | awk '{print $5}' | sed 's/%//')
+	printf "%s\n" "$volume"
+}
+
+
+# Notify
+notify_user() {
+	notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i "Volume : $(get_volume) %"
+}
+
+# Increase Volume
+inc_volume() {
+	pactl set-sink-volume @DEFAULT_SINK@ +5% && notify_user
+}
+
+# Decrease Volume
+dec_volume() {
+	pactl set-sink-volume @DEFAULT_SINK@ -5% && notify_user
+}
+
+# Toggle Mute
+toggle_mute() {
+	if [ "$(pactl list sinks | grep 'Mute:' | awk '{print $2}')" = "yes" ]; then
+		pactl set-sink-mute @DEFAULT_SINK@ 0 && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i  "Volume Switched ON"
+	else
+		pactl set-sink-mute @DEFAULT_SINK@ 1 && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i "$iDIR/volume-mute.png" "Volume Switched OFF"
+	fi
+}
+
+# Toggle Mic
+toggle_mic() {
+    # Check if microphone is currently muted or not
+    if pactl list sources | grep -q "Mute: yes"; then
+        # If muted, unmute the microphone
+        pactl set-source-mute @DEFAULT_SOURCE@ toggle
+        echo "Microphone unmuted"
+    else
+        # If unmuted, mute the microphone
+        pactl set-source-mute @DEFAULT_SOURCE@ toggle
+        echo "Microphone muted"
+    fi
+}
+
+
+
+
+
+# Notify
+notify_mic_user() {
+    notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i "Mic-Level : $(pactl list sources | grep 'Volume:' | awk 'NR==1 {print $5}' | sed 's/.$//') %"
+}
+
+# Increase MIC Volume
+inc_mic_volume() {
+    pactl set-source-volume @DEFAULT_SOURCE@ +5% && notify_mic_user
+}
+
+# Decrease MIC Volume
+dec_mic_volume() {
+    pactl set-source-volume @DEFAULT_SOURCE@ -5% && notify_mic_user
+}
+
+
+# Execute accordingly
+case "$1" in
+    --get)
+        get_volume
+        ;;
+    --inc)
+        inc_volume
+        ;;
+    --dec)
+        dec_volume
+        ;;
+    --toggle)
+        toggle_mute
+        ;;
+    --toggle-mic)
+        toggle_mic
+        ;;
+    --mic-inc)
+        inc_mic_volume
+        ;;
+    --mic-dec)
+        dec_mic_volume
+        ;;
+    *)
+        get_volume
+        ;;
+esac

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+updates_count=$(checkupdates | wc -l)
+
+echo "{\"text\": \"$updates_count \", \"class\": \"custom-module\"}"
