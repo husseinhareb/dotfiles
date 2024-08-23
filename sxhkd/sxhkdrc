@@ -25,6 +25,7 @@ super + alt + {q,r}
 # close and kill
 super + shift + q
              bspc node -c
+
 # alternate between the tiled and monocle layout
 super + m
 	bspc desktop -l next
@@ -142,4 +143,3 @@ XF86MonBrightnessUp
 #Lower Brightness
 XF86MonBrightnessDown
 	brightnessctl set 5%-
-

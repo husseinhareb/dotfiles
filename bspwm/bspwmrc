@@ -2,15 +2,16 @@
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 
-bspc monitor -d 1 2 3 4 5 6 7 8 9 10
+bspc monitor -d 1 2 3 4 5 6 7 8 9 0 
 
 bspc config border_width         2
+bspc config window_gap          3
+
 bspc config split_ratio          0.52
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
-#My Settings
-bspc config window_gap 3
+#My settings
 
 bspc config focus_follows_pointer true
 
@@ -18,8 +19,10 @@ sxhkd -c ~/.config/sxhkd/sxhkdrc &
 
 xsetroot -cursor_name left_ptr &
 
-feh --bg-fill ~/Pictures/Wallpapers/house-in-nature.jpg
+feh --bg-fill ~/Pictures/Wallpapers/building.png &
 
-polybar &
+picom &
+
+~/.config/polybar/launch.sh & 
 
 dunst &
