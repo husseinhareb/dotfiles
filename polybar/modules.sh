@@ -1,11 +1,30 @@
 #!/bin/bash
 
-if [ "$1" = "--cpu" ]; then
-    # Get the CPU speed using /proc/cpuinfo file
-    cpu_speed_mhz=$(cat /proc/cpuinfo | grep -m 1 "cpu MHz" | awk '{print $4}')
-    cpu_speed_ghz=$(awk "BEGIN {printf \"%.2f\", ${cpu_speed_mhz} / 1000}")
+if [ "$1" = "--temp" ]; then
+    # Function to check if 'sensors' is installed
+    check_dependencies() {
+        if ! command -v sensors &> /dev/null; then
+            echo "Error: 'sensors' command not found. Please install lm-sensors."
+            exit 1
+        fi
+    }
 
-    echo "${cpu_speed_ghz} GHz"
+    # Function to get CPU temperature
+    get_cpu_temp() {
+        # Use sensors to fetch temperature and extract CPU data
+        local temp=$(sensors | grep -i 'core 0' | awk '{print $3}')
+        if [ -z "$temp" ]; then
+            echo "Could not retrieve CPU temperature. Ensure lm-sensors is properly configured."
+            exit 1
+        fi
+
+        echo "$temp"
+    }
+
+    # Main script
+    check_dependencies
+    get_cpu_temp
+
 fi
 
 if [ "$1" = "--mic" ]; then
