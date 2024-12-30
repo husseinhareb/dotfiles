@@ -1,0 +1,76 @@
+# Alacritty Configuration with Tokyo Night Theme in TOML
+# Font: JetBrains Mono Nerd Font
+
+[window]
+padding = { x = 8, y = 8 }  # Horizontal and vertical padding
+decorations = "full"  # Window decorations: none, buttonless, or full
+dynamic_title = true  # Update window title dynamically
+startup_mode = "Windowed"  # Windowed by default (can be "Maximized")
+
+[font]
+normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
+bold = { family = "JetBrainsMono Nerd Font", style = "Bold" }
+italic = { family = "JetBrainsMono Nerd Font", style = "Italic" }
+size = 10.0  # Font size in points
+
+[cursor]
+style = "Block"  # Cursor style: Block, Underline, or Beam
+
+[colors.primary]
+background = "#24283b"  # Background color
+foreground = "#c0caf5"  # Text color
+
+[colors.cursor]
+text = "#24283b"
+cursor = "#c0caf5"
+
+[colors.selection]
+text = "#24283b"
+background = "#364a82"
+
+[colors.normal]
+black = "#15161e"
+red = "#f7768e"
+green = "#9ece6a"
+yellow = "#e0af68"
+blue = "#7aa2f7"
+magenta = "#bb9af7"
+cyan = "#7dcfff"
+white = "#a9b1d6"
+
+[colors.bright]
+black = "#414868"
+red = "#f7768e"
+green = "#9ece6a"
+yellow = "#e0af68"
+blue = "#7aa2f7"
+magenta = "#bb9af7"
+cyan = "#7dcfff"
+white = "#c0caf5"
+
+[colors.dim]
+black = "#1f2335"
+red = "#ff7a93"
+green = "#b9f27c"
+yellow = "#ff9e64"
+blue = "#7aa2f7"
+magenta = "#cfc9ff"
+cyan = "#63cdff"
+white = "#c0caf5"
+
+
+[terminal]
+
+[scrolling]
+history = 10000  # Number of lines in scrollback
+multiplier = 3  # Scroll speed multiplier
+
+[mouse]
+hide_when_typing = true  # Hide mouse cursor while typing
+
+[keyboard]
+
+[terminal.shell]
+program = "/bin/fish"  # Replace with your shell, e.g., /bin/zsh or /usr/bin/fish
+args = ["--login"]
+
